@@ -26,3 +26,7 @@
 - View의 post(Runnable)
 - View의 postDelayed(Runnable, Long): Runnable한 실행 단위를 ms 후에 실행해라.
 - Handler: 직접 Handler를 구현해서 Handler.post로 Runnable 객체를 보낼 수도 있고, Handler.sendMessage로 메세지를 보낼 수도 있다.
+
+
+https://github.com/AndroidStudyOrg/StopWatch/assets/51990139/066e4c2e-6c81-4521-a54f-daa6bb177309
+
