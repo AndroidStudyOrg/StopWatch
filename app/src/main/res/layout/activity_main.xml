@@ -145,4 +145,10 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" />
     </ScrollView>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupCountDown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="tv_titleCountDown,tv_countDown,tv_countDownUnit,pb_countDown" />
 </androidx.constraintlayout.widget.ConstraintLayout>
