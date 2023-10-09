@@ -1,5 +1,7 @@
 package org.shop.stopwatch
 
+import android.media.AudioManager
+import android.media.ToneGenerator
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
@@ -16,7 +18,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     // 카운트 다운 시간
-    private var countDownSec = 10
+    private var countDownSec = 5
 
     // 진행되는 카운트 다운 시간 (1 Second == 10 DeciSecond)
     private var currentCountDownDeciSec = countDownSec * 10
@@ -101,6 +103,23 @@ class MainActivity : AppCompatActivity() {
                     binding.pbCountDown.progress = progress.toInt()
                 }
             }
+            /**
+             * 아래와 같은 조건일 때 Beep 재생
+             * 볼륨은 시스템 설정 볼륨 -> ToneGenerator.MAX_VOLUME
+             * 0.1초만 소리가 난다
+             * 마지막에는 카운트다운이 끝났다는 의미로 다른 소리 재생
+             */
+            if (currentDeciSecond == 0 && currentCountDownDeciSec < 31 && currentCountDownDeciSec % 10 == 0) {
+                val toneType = if (currentCountDownDeciSec == 0) {
+                    ToneGenerator.TONE_CDMA_HIGH_L
+                } else {
+                    ToneGenerator.TONE_CDMA_ANSWER
+                }
+                ToneGenerator(AudioManager.STREAM_ALARM, ToneGenerator.MAX_VOLUME).startTone(
+                    toneType,
+                    100
+                )
+            }
         }
     }
 
@@ -116,6 +135,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.groupCountDown.isVisible = true
         initCountDownView()
+        binding.layoutLapContainer.removeAllViews()
     }
 
     private fun pause() {
@@ -124,6 +144,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun lap() {
+        if (currentDeciSecond == 0) return
         // 텍스트를 추가할 레이아웃 받아오기
         val container = binding.layoutLapContainer
 
