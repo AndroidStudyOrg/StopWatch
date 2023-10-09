@@ -2,8 +2,11 @@ package org.shop.stopwatch
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
+import androidx.core.view.setPadding
 import org.shop.stopwatch.databinding.ActivityMainBinding
 import org.shop.stopwatch.databinding.DialogCountdownSettingBinding
 import java.util.Timer
@@ -121,7 +124,33 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun lap() {
+        // 텍스트를 추가할 레이아웃 받아오기
+        val container = binding.layoutLapContainer
 
+        /**
+         * UI에 넣을 TextView를 kt 에서 작성
+         * - textsize는 float로 지정해야함.
+         * - text 형식: [랩 타임. 현재 시간(00:00 0)]
+         * - 랩타임을 확인하기 위해 childCount를 추가
+         */
+        TextView(this).apply {
+            textSize = 20f
+            gravity = Gravity.CENTER
+            val minutes = currentDeciSecond.div(10) / 60
+            val second = currentDeciSecond.div(10) % 60
+            val deciSec = currentDeciSecond % 10
+            text = container.childCount.inc().toString() + ". " + String.format(
+                "%02d:%02d %01d",
+                minutes,
+                second,
+                deciSec
+            )
+            setPadding(30)
+        }.let { labTextView ->
+            container.addView(labTextView, 0)
+        }
+        // 아래와 같이 하거나 let도 사용 가능
+//        container.addView(lapTextView, 0)
     }
 
     private fun showCountDownDialog() {
